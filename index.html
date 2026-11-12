@@ -13,16 +13,19 @@
 :root{
   --bg:#F5F6F4; --surface:#FFFFFF; --ink:#16231F; --muted:#5D6A65; --line:#DCE1DE;
   --accent:#1F5A4C; --brass:#9C7A35; --tint:#E8EFEC;
+  --ok:#1E6B3A; --ok-bg:#E2F1E6; --warn:#8A5A00; --warn-bg:#FBF0D9; --bad:#A3302A; --bad-bg:#FBE4E1;
   --display:"Newsreader", Georgia, "Times New Roman", serif;
   --body:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#101614; --surface:#17201D; --ink:#E7ECE9; --muted:#9AA8A2; --line:#2A3632;
-  --accent:#7CC2AE; --brass:#D2B06A; --tint:#1C2925; color-scheme:dark}}
+  --accent:#7CC2AE; --brass:#D2B06A; --tint:#1C2925;
+  --ok:#7FD49A; --ok-bg:#16301F; --warn:#E8C171; --warn-bg:#352A12; --bad:#F09088; --bad-bg:#3A1C1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#101614; --surface:#17201D; --ink:#E7ECE9; --muted:#9AA8A2; --line:#2A3632;
-  --accent:#7CC2AE; --brass:#D2B06A; --tint:#1C2925; color-scheme:dark}
+  --accent:#7CC2AE; --brass:#D2B06A; --tint:#1C2925;
+  --ok:#7FD49A; --ok-bg:#16301F; --warn:#E8C171; --warn-bg:#352A12; --bad:#F09088; --bad-bg:#3A1C1A; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -52,6 +55,9 @@ a.chip{color:var(--ink);text-decoration:none;font-weight:600}
 a.chip:hover{border-color:var(--accent);color:var(--accent)}
 a.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 a.chip .arr{color:var(--accent);user-select:none}
+a.chip.cv{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+a.chip.cv .arr{color:var(--bg)}
+a.chip.cv:hover{color:var(--bg);opacity:.9}
 .chip button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .portrait{position:relative;margin:0}
 .portrait img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;border-radius:4px;max-width:100%}
@@ -97,6 +103,99 @@ a.chip .arr{color:var(--accent);user-select:none}
 .col li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:15px}
 .col li small{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
 
+/* Work samples */
+.ws-note{font-size:13px;color:var(--muted);margin:-20px 0 36px;max-width:65ch}
+.sample{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:36px;padding-block:36px;border-top:1px solid var(--line);align-items:start}
+.sample:first-of-type{border-top:0;padding-top:0}
+.sample.wide{grid-template-columns:1fr}
+.sample.wide .s-text dl{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:860px){.sample.wide .s-text dl{grid-template-columns:1fr;gap:12px}}
+.s-text{min-width:0;display:flex;flex-direction:column;gap:14px}
+.s-text h3{font-family:var(--display);font-size:26px;line-height:1.2}
+.s-text dl{margin:0;display:grid;gap:12px}
+.s-text dt{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+.s-text dd{margin:2px 0 0;color:var(--muted);font-size:15px}
+.sheet{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 1px 0 var(--line)}
+.sheet-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;font-weight:600}
+.sheet-bar .file{width:14px;height:14px;border-radius:3px;background:var(--accent);flex:none}
+.sheet-body{padding:14px;display:grid;gap:14px}
+.scroll{overflow-x:auto}
+.grid{border-collapse:collapse;width:100%;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.grid th{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:left;background:var(--tint);padding:6px 7px;border:1px solid var(--line)}
+.grid td{padding:6px 7px;border:1px solid var(--line)}
+.grid .r{text-align:right}
+.grid tr.total td{font-weight:700;background:var(--tint)}
+.grid td.flag{background:var(--warn-bg);color:var(--warn);font-weight:700}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.p-over{background:var(--bad-bg);color:var(--bad)}
+.p-soon{background:var(--warn-bg);color:var(--warn)}
+.p-week{background:var(--tint);color:var(--accent)}
+.p-paid{background:var(--ok-bg);color:var(--ok)}
+.p-none{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{border:1px solid var(--line);border-radius:6px;padding:10px;display:grid;gap:2px;font-variant-numeric:tabular-nums}
+.kpi b{font-size:12px}
+.kpi span{font-size:18px;font-family:var(--display)}
+.kpi small{font-size:11px;color:var(--muted)}
+.kpi small em{font-style:normal;color:var(--bad);font-weight:600}
+.bar{height:6px;border-radius:3px;background:var(--line);min-width:70px;position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--accent)}
+.paydays{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
+.paydays b{color:var(--ink)}
+.tabs{display:flex;gap:2px;border-top:1px solid var(--line);padding:0 10px;background:var(--bg);font-size:12px;overflow-x:auto}
+.tabs span{padding:7px 12px;color:var(--muted);white-space:nowrap}
+.tabs span.on{background:var(--surface);color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+
+/* Calendar sample */
+.cal{display:grid;grid-template-columns:64px repeat(5,minmax(96px,1fr));min-width:560px;font-size:11px}
+.cal .dh{font-weight:700;font-size:12px;padding:6px;border-bottom:1px solid var(--line);text-align:center}
+.cal .dh small{display:block;font-weight:400;color:var(--muted)}
+.cal .tz{font-family:var(--mono);font-size:9.5px;color:var(--muted);padding:6px 4px;border-bottom:1px solid var(--line);line-height:1.3}
+.times{position:relative;height:432px}
+.times span{position:absolute;right:6px;transform:translateY(-50%);font-family:var(--mono);font-size:9.5px;color:var(--muted);text-align:right;line-height:1.2}
+.times span i{display:block;font-style:normal;opacity:.75}
+.day{position:relative;height:432px;border-left:1px solid var(--line);background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 47px,var(--line) 47px,var(--line) 48px)}
+.ev{position:absolute;left:3px;right:3px;border-radius:4px;padding:3px 5px;overflow:hidden;line-height:1.25;border-left:3px solid}
+.ev b,.ev em{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev b{font-weight:600}
+.ev em{font-style:normal;font-size:9.5px;opacity:.85}
+.c-int{background:var(--tint);border-color:var(--accent);color:var(--ink)}
+.c-inv{background:var(--warn-bg);border-color:var(--brass);color:var(--ink)}
+.c-ven{background:var(--ok-bg);border-color:var(--ok);color:var(--ink)}
+.c-foc{background:repeating-linear-gradient(135deg,var(--surface) 0 6px,var(--bg) 6px 12px);border-color:var(--muted);color:var(--muted)}
+.c-trv{background:var(--bg);border-color:var(--line);color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:12px;border-radius:2px;border-left:3px solid;display:inline-block}
+/* Meeting notes sample */
+.notes{display:grid;gap:12px;font-size:13px}
+.notes h4{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);font-weight:500}
+.notes ul{margin:4px 0 0;padding-left:18px;color:var(--muted);display:grid;gap:3px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;color:var(--muted)}
+.meta b{color:var(--ink)}
+
+/* Spreadsheet look */
+.xl .xl-fx{display:flex;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid var(--line);font-size:11px;min-width:0}
+.xl .xl-fx .ref{font-family:var(--mono);color:var(--muted);border-right:1px solid var(--line);padding-right:10px}
+.xl .xl-fx .fxl{font-style:italic;color:var(--muted);font-family:Georgia,serif}
+.xl .xl-fx code{font-family:var(--mono);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.xlg{border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;font-size:11.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.xlg th{background:var(--bg);color:var(--muted);font-weight:400;font-size:10px;border:1px solid var(--line);padding:2px 6px;text-align:center;min-width:34px}
+.xlg td{border:1px solid var(--line);padding:3px 7px;height:20px}
+.xlg td.rn{background:var(--bg);color:var(--muted);font-size:10px;text-align:center;padding:2px 5px}
+.xlg td.h{font-weight:700;background:var(--tint)}
+.xlg td.c{text-align:center}
+.xlg td.n{text-align:right}
+.xlg td.title{font-weight:700;font-size:13px;color:var(--accent)}
+.xlg td.sec{font-weight:700;color:var(--brass)}
+.xlg td.tot{font-weight:700;background:var(--tint)}
+.xlg td.bad{color:var(--bad);font-weight:700}
+.xlg td.ok{color:var(--ok);font-weight:700}
+.xlg td.warnc{color:var(--warn);font-weight:700}
+.xlg td.diff{background:var(--bad-bg);color:var(--bad);font-weight:700}
+.xlg td.lnk{color:var(--accent);text-decoration:underline}
+.xlg td:last-child{max-width:none}
+
 footer{padding-block:72px 56px;border-top:1px solid var(--line)}
 .cta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px}
 .cta h2{font-family:var(--display);font-size:clamp(34px,5vw,56px);line-height:1.05;max-width:16ch}
@@ -114,10 +213,12 @@ footer{padding-block:72px 56px;border-top:1px solid var(--line)}
   .fig:nth-child(n+3){border-top:1px solid var(--line)}
   .hl{grid-template-columns:1fr 1fr}
   .grid3{grid-template-columns:1fr 1fr}
+  .sample{grid-template-columns:1fr;gap:24px}
 }
 @media (max-width:520px){
   .hl,.grid3{grid-template-columns:1fr}
   .fig{padding:20px 12px}
+  .kpis{grid-template-columns:1fr}
   .portrait figcaption{left:0}
   section{padding-block:52px}
 }
@@ -142,6 +243,8 @@ footer{padding-block:72px 56px;border-top:1px solid var(--line)}
       <div class="contact">
         <div class="chip"><span id="email">thaomybui104@gmail.com</span><button type="button" id="copy-email" data-copy="thaomybui104@gmail.com">Copy</button></div>
         <div class="chip"><span id="phone">(+84) 88 896 6556</span><button type="button" id="copy-phone" data-copy="+84888966556">Copy</button></div>
+        <a class="chip cv" href="Thao-My-Bui-CV.pdf" download>Download CV <span class="arr">↓</span></a>
+        <a class="chip" href="https://wa.me/84888966556" target="_blank" rel="noopener">WhatsApp <span class="arr">↗</span></a>
         <a class="chip" href="https://www.linkedin.com/in/thaomybui104/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
       </div>
     </div>
@@ -179,6 +282,492 @@ footer{padding-block:72px 56px;border-top:1px solid var(--line)}
       <div><h3>Operations at scale</h3><p>Coordinated nationwide product launch campaigns for a network of 4,000+ distributors.</p></div>
       <div><h3>AI-enabled workflows</h3><p>Uses ChatGPT, Claude, Gemini and Notion to speed up executive reporting and routine operations.</p></div>
     </div>
+  </section>
+
+  <section id="work-samples">
+    <div class="sec-head"><span class="eyebrow">Work samples</span><h2>How I keep finance, projects and the week on track</h2></div>
+    <p class="ws-note">These are recreations of trackers I build and run day to day. The counts in each outcome are real. Vendor names, sites and figures are sample data, since the real ones are confidential.</p>
+
+    <article class="sample wide">
+      <div class="s-text">
+        <span class="eyebrow">01 · Accounts payable</span>
+        <h3>Invoice &amp; payment tracker</h3>
+        <dl>
+          <div><dt>The problem</dt><dd>Invoices from 16 suppliers arrive by email, vendor portals, paper and weekly statements for 6 kitchen locations. Each supplier has its own terms, pay day and late-fee rules.</dd></div>
+          <div><dt>What I built</dt><dd>One tracker with an invoice log, automatic due dates and payment alerts, a summary by location and a weekly pay-day schedule by vendor. I use Claude to find new invoices in the AP mailbox and log them, with a link to each file.</dd></div>
+          <div><dt>Outcome</dt><dd>About 150 invoice entries were logged in the tracker's first four weeks. The notes on each entry caught problems before any money went out: a statement still charging about $3,700 for goods marked out of stock, a request to pay a new payee (held until confirmed by phone), and invoices about to reach a 1.5% monthly late fee.</dd></div>
+        </dl>
+      </div>
+      <figure class="sheet xl" aria-label="Sample invoice tracker">
+<div class="sheet-bar"><span class="file"></span>Invoice Tracker</div>
+<div class="xl-fx"><span class="ref">F2</span><span class="fxl">fx</span><code>=IF(G2="Paid","",IF(E2&lt;TODAY(),"🔴 OVERDUE",IF(E2-TODAY()&lt;=7,"🟠 Due in "&amp;E2-TODAY()&amp;" days","")))</code></div>
+<div class="scroll"><table class="xlg"><thead><tr><th class="corner"></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+</tr></thead><tbody>
+<tr><td class="rn">1</td>
+<td class="h ">Invoice No.</td>
+<td class="h ">Vendor</td>
+<td class="h ">Location</td>
+<td class="h n">Amount</td>
+<td class="h ">Due Date</td>
+<td class="h ">Payment Alert</td>
+<td class="h ">Status</td>
+<td class="h ">Notes</td>
+</tr>
+<tr><td class="rn">2</td>
+<td class="">2490</td>
+<td class="">Harbor Seafood</td>
+<td class="">DTN</td>
+<td class="n ">$14,560.20</td>
+<td class="">2026-11-13</td>
+<td class="">🟠 Due in 1 days</td>
+<td class="">Waiting</td>
+<td class="">Per weekly statement 11/02. Net 14</td>
+</tr>
+<tr><td class="rn">3</td>
+<td class="">410259, 410353</td>
+<td class="">Greenfield Produce</td>
+<td class="">BKN</td>
+<td class="n ">$3,912.85</td>
+<td class="">2026-11-04</td>
+<td class="bad">🔴 OVERDUE</td>
+<td class="">Waiting</td>
+<td class="">Per statement 11/03. Net 30</td>
+</tr>
+<tr><td class="rn">4</td>
+<td class="">974179</td>
+<td class="">Metro Dry Goods</td>
+<td class="">DTN</td>
+<td class="n ">$6,211.94</td>
+<td class="">2026-10-23</td>
+<td class=""></td>
+<td class="">Hold</td>
+<td class="">CHECK: 54 cs out of stock but still billed. Credit requested</td>
+</tr>
+<tr><td class="rn">5</td>
+<td class="">0477316</td>
+<td class="">Northside Produce</td>
+<td class="">QNS</td>
+<td class="n ">$498.00</td>
+<td class="">2026-10-24</td>
+<td class=""></td>
+<td class="">Waiting</td>
+<td class="">Vendor asked to pay a new payee. Verify by phone first</td>
+</tr>
+<tr><td class="rn">6</td>
+<td class="">4229718</td>
+<td class="">Pacific Imports</td>
+<td class="">DTN</td>
+<td class="n ">$3,717.40</td>
+<td class="">2026-11-12</td>
+<td class="">🟠 Due in 1 days</td>
+<td class="">Waiting</td>
+<td class="">Net 30. 1.5%/month late fee after 30 days. Pay via portal</td>
+</tr>
+<tr><td class="rn">7</td>
+<td class="">2482A</td>
+<td class="">Harbor Seafood</td>
+<td class="">DTN</td>
+<td class="n ">$19,731.60</td>
+<td class="">2026-11-06</td>
+<td class=""></td>
+<td class="ok">Paid</td>
+<td class="">Invoice split in 2 (agreed with vendor 11/06)</td>
+</tr>
+<tr><td class="rn">8</td>
+<td class="">0217307</td>
+<td class="">City Energy</td>
+<td class="">BKN</td>
+<td class="n ">$8,401.74</td>
+<td class="">2026-11-02</td>
+<td class=""></td>
+<td class="ok">Paid</td>
+<td class="">Pay 1 week before due date</td>
+</tr>
+</tbody></table></div>
+<div class="tabs"><span>Summary</span><span>Pay Schedule</span><span class="on">Invoices</span><span>Ad-hoc</span><span>Portals</span></div></figure>
+    </article>
+
+    <article class="sample">
+      <div class="s-text">
+        <span class="eyebrow">02 · Construction</span>
+        <h3>Multi-site construction budget</h3>
+        <dl>
+          <div><dt>The problem</dt><dd>Six kitchen build-outs in New York, New Jersey and Pennsylvania run at the same time, each with its own contractor milestones, tenant-improvement allowance and payments.</dd></div>
+          <div><dt>What I maintain</dt><dd>A budget summary across all sites (budget, paid to date, remaining, cash need), a sheet for each site broken down by category and milestone, and one combined payments log.</dd></div>
+          <div><dt>Outcome</dt><dd>Leadership sees budget, paid to date and remaining cash need for all six sites in one view before approving each contractor payment.</dd></div>
+        </dl>
+      </div>
+      <figure class="sheet xl" aria-label="Sample construction budget">
+<div class="sheet-bar"><span class="file"></span>Construction Tracker and Budget</div>
+<div class="xl-fx"><span class="ref">D5</span><span class="fxl">fx</span><code>=IFERROR(C5/B5,0)</code></div>
+<div class="scroll"><table class="xlg"><thead><tr><th class="corner"></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+</tr></thead><tbody>
+<tr><td class="rn">1</td>
+<td class="title" colspan="7">  MULTI-SITE BUDGET SUMMARY</td>
+</tr>
+<tr><td class="rn">2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td class="rn">3</td>
+<td class="sec" colspan="7">1. PROJECT TOTALS</td>
+</tr>
+<tr><td class="rn">4</td>
+<td class="h ">Project</td>
+<td class="h n">Budget</td>
+<td class="h n">Paid to Date</td>
+<td class="h n">% Paid</td>
+<td class="h n">Remaining</td>
+<td class="h n">TI</td>
+<td class="h n">Cash Need</td>
+</tr>
+<tr><td class="rn">5</td>
+<td class="">Production facility</td>
+<td class="n ">$610,000</td>
+<td class="n ">$342,500</td>
+<td class="n ">56.1%</td>
+<td class="n ">$267,500</td>
+<td class="n "></td>
+<td class="n ">$267,500</td>
+</tr>
+<tr><td class="rn">6</td>
+<td class="">Site North</td>
+<td class="n ">$1,020,000</td>
+<td class="n ">$628,000</td>
+<td class="n ">61.6%</td>
+<td class="n ">$392,000</td>
+<td class="n "></td>
+<td class="n ">$392,000</td>
+</tr>
+<tr><td class="rn">7</td>
+<td class="">Site East</td>
+<td class="n ">$805,000</td>
+<td class="n ">$221,000</td>
+<td class="n ">27.5%</td>
+<td class="n ">$584,000</td>
+<td class="n ">$90,000</td>
+<td class="n ">$494,000</td>
+</tr>
+<tr><td class="rn">8</td>
+<td class="">Site South</td>
+<td class="n ">$1,410,000</td>
+<td class="n ">$118,000</td>
+<td class="n ">8.4%</td>
+<td class="n ">$1,292,000</td>
+<td class="n ">$200,000</td>
+<td class="n ">$1,092,000</td>
+</tr>
+<tr><td class="rn">9</td>
+<td class="">Site West</td>
+<td class="n ">$1,290,000</td>
+<td class="n ">$34,000</td>
+<td class="n ">2.6%</td>
+<td class="n ">$1,256,000</td>
+<td class="n ">$200,000</td>
+<td class="n ">$1,056,000</td>
+</tr>
+<tr><td class="rn">10</td>
+<td class="tot">PORTFOLIO TOTAL</td>
+<td class="n tot">$5,135,000</td>
+<td class="n tot">$1,343,500</td>
+<td class="n tot">26.2%</td>
+<td class="n tot">$3,791,500</td>
+<td class="n tot">$490,000</td>
+<td class="n tot">$3,301,500</td>
+</tr>
+</tbody></table></div>
+<div class="tabs"><span>Pipeline</span><span>Sites</span><span class="on">Budget Summary</span><span>Site North</span><span>Site East</span><span>ALL Payments</span></div></figure>
+    </article>
+
+    <article class="sample">
+      <div class="s-text">
+        <span class="eyebrow">03 · Reconciliation</span>
+        <h3>Vendor statement check</h3>
+        <dl>
+          <div><dt>The problem</dt><dd>Each month, vendor statements for every location have to match what accounting has recorded before anything is paid.</dd></div>
+          <div><dt>What I maintain</dt><dd>A monthly matrix of about 25 core suppliers × 4 kitchens that compares the statement total with the accounting system and shows the difference. Any gap is highlighted and followed up with the vendor.</dd></div>
+          <div><dt>Outcome</dt><dd>Every core supplier is checked for every kitchen each month, so a missing credit or a duplicate invoice shows up as a highlighted difference before payment, not after.</dd></div>
+        </dl>
+      </div>
+      <figure class="sheet xl" aria-label="Sample vendor reconciliation">
+<div class="sheet-bar"><span class="file"></span>INVOICE IN</div>
+<div class="xl-fx"><span class="ref">G4</span><span class="fxl">fx</span><code>=E4-F4</code></div>
+<div class="scroll"><table class="xlg"><thead><tr><th class="corner"></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+<th>I</th>
+</tr></thead><tbody>
+<tr><td class="rn">1</td>
+<td class=""></td>
+<td class=""></td>
+<td class="h c" colspan="6">Oct.26</td>
+<td></td>
+</tr>
+<tr><td class="rn">2</td>
+<td class=""></td>
+<td class=""></td>
+<td class="h c" colspan="3">DTN</td>
+<td class="h c" colspan="3">BKN</td>
+<td></td>
+</tr>
+<tr><td class="rn">3</td>
+<td class="h ">Link portal</td>
+<td class="h ">Vendors</td>
+<td class="h n">Statement</td>
+<td class="h n">ACU</td>
+<td class="h n">Diff</td>
+<td class="h n">Statement</td>
+<td class="h n">ACU</td>
+<td class="h n">Diff</td>
+<td></td>
+</tr>
+<tr><td class="rn">4</td>
+<td class="lnk">portal</td>
+<td class="">Harbor Seafood</td>
+<td class="n ">52,418.60</td>
+<td class="n ">52,418.60</td>
+<td class="n ">0.00</td>
+<td class="n ">9,112.40</td>
+<td class="n ">9,112.40</td>
+<td class="n ">0.00</td>
+<td></td>
+</tr>
+<tr><td class="rn">5</td>
+<td class=""></td>
+<td class="">Greenfield Produce</td>
+<td class="n ">27,903.15</td>
+<td class="n ">27,903.15</td>
+<td class="n ">0.00</td>
+<td class="n ">6,280.00</td>
+<td class="n ">6,045.00</td>
+<td class="n diff">235.00</td>
+<td></td>
+</tr>
+<tr><td class="rn">6</td>
+<td class="lnk">portal</td>
+<td class="">Metro Dry Goods</td>
+<td class="n ">40,226.90</td>
+<td class="n ">39,876.90</td>
+<td class="n diff">350.00</td>
+<td class="n ">33,410.25</td>
+<td class="n ">33,410.25</td>
+<td class="n ">0.00</td>
+<td></td>
+</tr>
+<tr><td class="rn">7</td>
+<td class=""></td>
+<td class="">Prime Meats</td>
+<td class="n ">18,640.00</td>
+<td class="n ">18,640.00</td>
+<td class="n ">0.00</td>
+<td class="n ">4,905.70</td>
+<td class="n ">4,905.70</td>
+<td class="n ">0.00</td>
+<td></td>
+</tr>
+<tr><td class="rn">8</td>
+<td class="lnk">portal</td>
+<td class="">Pacific Imports</td>
+<td class="n ">11,207.80</td>
+<td class="n ">11,207.80</td>
+<td class="n ">0.00</td>
+<td class="n ">3,846.20</td>
+<td class="n ">3,846.20</td>
+<td class="n ">0.00</td>
+<td></td>
+</tr>
+<tr><td class="rn">9</td>
+<td class=""></td>
+<td class="">Northside Produce</td>
+<td class="n ">2,964.00</td>
+<td class="n ">2,964.00</td>
+<td class="n ">0.00</td>
+<td class="n ">1,118.00</td>
+<td class="n ">1,118.00</td>
+<td class="n ">0.00</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<div class="tabs"><span>Summary 2026</span><span>Vendor</span><span>Payment list</span><span class="on">Tracking list</span><span>Vendor Notes</span></div></figure>
+    </article>
+
+    <article class="sample">
+      <div class="s-text">
+        <span class="eyebrow">04 · Calendar</span>
+        <h3>Executive calendar</h3>
+        <dl>
+          <div><dt>The problem</dt><dd>A week of 4 to 6 meetings with internal teams, investors, contractors and suppliers, between a New York office and a team in Vietnam 12 hours ahead.</dd></div>
+          <div><dt>What I do</dt><dd>Color-code the calendar by type of meeting, protect blocks of focus time, book cross-time-zone calls in hours that work for both sides, and attach the agenda and briefing documents to each invite before the meeting.</dd></div>
+          <div><dt>Outcome</dt><dd>Meetings stay at 4 to 6 a week, so most of the week is kept for focused work. The executive walks into every meeting with the documents already in the invite.</dd></div>
+        </dl>
+      </div>
+      <figure class="sheet" aria-label="Sample executive calendar week">
+        <div class="sheet-bar"><span class="file"></span>Executive calendar · Week of Nov 16</div>
+        <div class="sheet-body">
+          <div class="scroll"><div class="cal"><div class="tz">ET<br>Hanoi</div><div class="dh">Mon<small>Nov 16</small></div><div class="dh">Tue<small>Nov 17</small></div><div class="dh">Wed<small>Nov 18</small></div><div class="dh">Thu<small>Nov 19</small></div><div class="dh">Fri<small>Nov 20</small></div><div class="times"><span style="top:2px;transform:none">8am<i>20:00</i></span><span style="top:50px;transform:none">9am<i>21:00</i></span><span style="top:98px;transform:none">10am<i>22:00</i></span><span style="top:146px;transform:none">11am<i>23:00</i></span><span style="top:194px;transform:none">12pm<i>00:00</i></span><span style="top:242px;transform:none">1pm<i>01:00</i></span><span style="top:290px;transform:none">2pm<i>02:00</i></span><span style="top:338px;transform:none">3pm<i>03:00</i></span><span style="top:386px;transform:none">4pm<i>04:00</i></span></div><div class="day"><div class="ev c-foc" style="top:49px;height:92px"><b>Focus time</b></div><div class="ev c-int" style="top:145px;height:44px"><b>Finance sync</b><em>Agenda attached</em></div><div class="ev c-foc" style="top:289px;height:92px"><b>Focus time</b></div></div><div class="day"><div class="ev c-int" style="top:1px;height:44px"><b>Vietnam sync</b><em>8 PM in Hanoi</em></div><div class="ev c-foc" style="top:73px;height:92px"><b>Focus time</b></div><div class="ev c-inv" style="top:241px;height:44px"><b>Investor call</b><em>Deck attached</em></div></div><div class="day"><div class="ev c-foc" style="top:49px;height:92px"><b>Focus time</b></div><div class="ev c-trv" style="top:289px;height:20px"><b>Travel</b></div><div class="ev c-ven" style="top:313px;height:44px"><b>Site visit</b><em>Contractor brief</em></div></div><div class="day"><div class="ev c-foc" style="top:49px;height:44px"><b>Focus time</b></div><div class="ev c-ven" style="top:121px;height:44px"><b>Supplier call</b><em>Open items list</em></div><div class="ev c-foc" style="top:289px;height:92px"><b>Focus time</b></div></div><div class="day"><div class="ev c-foc" style="top:49px;height:92px"><b>Focus time</b></div><div class="ev c-int" style="top:241px;height:44px"><b>Week recap</b><em>Notes + actions</em></div></div></div></div>
+          <div class="legend"><span><i class="c-int"></i>Internal</span><span><i class="c-inv"></i>Investors &amp; lenders</span><span><i class="c-ven"></i>Suppliers &amp; contractors</span><span><i class="c-foc"></i>Focus time</span><span><i class="c-trv"></i>Travel</span></div>
+        </div>
+      </figure>
+    </article>
+
+    <article class="sample">
+      <div class="s-text">
+        <span class="eyebrow">05 · Meeting notes</span>
+        <h3>Notes to action items</h3>
+        <dl>
+          <div><dt>The problem</dt><dd>After a meeting, decisions and follow-ups get lost when nobody writes down who does what and by when.</dd></div>
+          <div><dt>What I do</dt><dd>Record with an AI note-taker (Otter, Gemini or Claude), then edit the draft into a short summary. Each action item gets an owner and a deadline, and I send the notes the same day.</dd></div>
+          <div><dt>Outcome</dt><dd>Everyone leaves with the same list. I follow up on each item and update its status until it is done.</dd></div>
+        </dl>
+      </div>
+      <figure class="sheet" aria-label="Sample meeting notes">
+        <div class="sheet-bar"><span class="file"></span>Finance weekly · Notes</div>
+        <div class="sheet-body notes">
+          <div class="meta"><span><b>Mon Nov 16</b> · 11:00 ET</span><span>4 attendees</span><span>AI draft, edited and sent same day</span></div>
+          <div><h4>Summary</h4><ul>
+            <li>Supplier payments for 6 kitchens are on schedule. Two invoices are held pending credit notes.</li>
+            <li>Site West contractor asked for the procurement payment early.</li>
+          </ul></div>
+          <div><h4>Decisions</h4><ul>
+            <li>Pay the procurement milestone once long-lead orders are confirmed in writing.</li>
+            <li>Move the Friday payment run to Thursday for the holiday week.</li>
+          </ul></div>
+          <div><h4>Action items</h4>
+          <div class="scroll"><table class="grid">
+            <thead><tr><th>Action</th><th>Owner</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Request credit notes from 2 suppliers</td><td>My</td><td>Nov 17</td><td><span class="pill p-paid">Done</span></td></tr>
+              <tr><td>Get written order confirmation from contractor</td><td>Ops lead</td><td>Nov 18</td><td><span class="pill p-week">In progress</span></td></tr>
+              <tr><td>Update cash-need forecast</td><td>Finance</td><td>Nov 19</td><td><span class="pill p-none">Open</span></td></tr>
+              <tr><td>Tell suppliers about Thursday pay run</td><td>My</td><td>Nov 20</td><td><span class="pill p-none">Open</span></td></tr>
+            </tbody>
+          </table></div></div>
+        </div>
+      </figure>
+    </article>
+
+    <article class="sample wide">
+      <div class="s-text">
+        <span class="eyebrow">06 · Facilities</span>
+        <h3>Service calls &amp; troubleshooting</h3>
+        <dl>
+          <div><dt>The problem</dt><dd>Each kitchen depends on recurring services: internet, utilities, trash, pest control, linens, oil pickup and hood cleaning. When one fails, it has to be fixed before the next service.</dd></div>
+          <div><dt>What I do</dt><dd>Call service providers through Aircall to book visits and report problems at each location. I log every call with the ticket number, the technician's time window and the next step. A facilities sheet keeps each location's providers, accounts and monthly costs in one place.</dd></div>
+          <div><dt>Outcome</dt><dd>Kitchen managers have one person to contact about any service problem, and every open ticket is followed until it is resolved.</dd></div>
+        </dl>
+      </div>
+<figure class="sheet xl" aria-label="Sample facilities call log">
+<div class="sheet-bar"><span class="file"></span>Facilities Sheet</div>
+<div class="xl-fx"><span class="ref">E2</span><span class="fxl">fx</span><code>Internet down during lunch service</code></div>
+<div class="scroll"><table class="xlg"><thead><tr><th class="corner"></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+</tr></thead><tbody>
+<tr><td class="rn">1</td>
+<td class="h ">Date</td>
+<td class="h ">Location</td>
+<td class="h ">Service</td>
+<td class="h ">Vendor</td>
+<td class="h ">Issue / request</td>
+<td class="h ">Ticket #</td>
+<td class="h ">Next step</td>
+<td class="h ">Status</td>
+</tr>
+<tr><td class="rn">2</td>
+<td class="">Nov 10</td>
+<td class="">DTN</td>
+<td class="">Internet</td>
+<td class="">City Fiber</td>
+<td class="">Internet down during lunch service</td>
+<td class="">TK-58213</td>
+<td class="">Tech visit Tue 9–12</td>
+<td class="ok">Resolved Nov 11</td>
+</tr>
+<tr><td class="rn">3</td>
+<td class="">Nov 10</td>
+<td class="">BKN</td>
+<td class="">Hood cleaning</td>
+<td class="">Clearline Hoods</td>
+<td class="">Book quarterly cleaning</td>
+<td class=""></td>
+<td class="">Sun 6am, before opening</td>
+<td class="ok">Booked</td>
+</tr>
+<tr><td class="rn">4</td>
+<td class="">Nov 11</td>
+<td class="">QNS</td>
+<td class="">Pest control</td>
+<td class="">Shield Pest</td>
+<td class="">Monthly visit</td>
+<td class=""></td>
+<td class="">After close, Fri 11pm</td>
+<td class="ok">Booked</td>
+</tr>
+<tr><td class="rn">5</td>
+<td class="">Nov 12</td>
+<td class="">DTN</td>
+<td class="">Refrigeration</td>
+<td class="">Polar Service</td>
+<td class="">Walk-in cooler alarm</td>
+<td class="">WO-4471</td>
+<td class="">Same-day technician</td>
+<td class="ok">Resolved</td>
+</tr>
+<tr><td class="rn">6</td>
+<td class="">Nov 12</td>
+<td class="">BKN</td>
+<td class="">Oil pickup</td>
+<td class="">Green Grease</td>
+<td class="">Pickup missed</td>
+<td class=""></td>
+<td class="">Rescheduled Nov 13</td>
+<td class="warnc">Follow up</td>
+</tr>
+<tr><td class="rn">7</td>
+<td class="">Nov 13</td>
+<td class="">HRL</td>
+<td class="">Towels</td>
+<td class="">Linen Pro</td>
+<td class="">Delivery short 4 bundles</td>
+<td class=""></td>
+<td class="">Credit on next invoice</td>
+<td class="warnc">Follow up</td>
+</tr>
+</tbody></table></div>
+<div class="tabs"><span>Summary</span><span>DTN</span><span>BKN</span><span>QNS</span><span class="on">Call log</span></div></figure>
+    </article>
   </section>
 
   <section id="experience">
@@ -281,10 +870,12 @@ footer{padding-block:72px 56px;border-top:1px solid var(--line)}
       <div class="contact">
         <div class="chip"><span>thaomybui104@gmail.com</span><button type="button" id="copy-email-2" data-copy="thaomybui104@gmail.com">Copy</button></div>
         <div class="chip"><span>(+84) 88 896 6556</span><button type="button" id="copy-phone-2" data-copy="+84888966556">Copy</button></div>
+        <a class="chip cv" href="Thao-My-Bui-CV.pdf" download>Download CV <span class="arr">↓</span></a>
+        <a class="chip" href="https://wa.me/84888966556" target="_blank" rel="noopener">WhatsApp <span class="arr">↗</span></a>
         <a class="chip" href="https://www.linkedin.com/in/thaomybui104/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
       </div>
     </div>
-    <div class="fine">Thao My Bui · Hanoi, Vietnam · Available for remote roles · linkedin.com/in/thaomybui104</div>
+    <div class="fine">Thao My Bui · Hanoi, Vietnam (GMT+7) · Available for remote roles · WhatsApp +84 88 896 6556 · linkedin.com/in/thaomybui104</div>
   </footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
